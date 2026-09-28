@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>E-Governance Grievance Redressal System</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header><h1>🏛️ E-Governance Grievance Redressal &amp; Escalation System</h1></header>
+<nav>
+  <button class="tab active" data-tab="grievances">Grievances</button>
+  <button class="tab" data-tab="departments">Departments</button>
+</nav>
+<div id="toast"></div>
+
+<main>
+<section id="grievances" class="panel active">
+  <div id="stats" class="stats"></div>
+  <div class="toolbar">
+    <button class="primary" onclick="openGrievanceForm()">+ New Grievance</button>
+    <label>Filter status:
+      <select id="statusFilter" onchange="loadGrievances()">
+        <option value="">All</option><option>SUBMITTED</option><option>IN_PROGRESS</option>
+        <option>ESCALATED</option><option>RESOLVED</option><option>CLOSED</option>
+      </select>
+    </label>
+  </div>
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th>ID</th><th>Title</th><th>Citizen</th><th>Department</th><th>Priority</th><th>Status</th><th>Level</th><th>Due</th><th>Actions</th></tr></thead>
+    <tbody id="grievanceBody"></tbody>
+  </table>
+  </div>
+</section>
+
+<section id="departments" class="panel">
+  <div class="toolbar"><button class="primary" onclick="openDepartmentForm()">+ New Department</button></div>
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th>ID</th><th>Name</th><th>Head Officer</th><th>Email</th><th>Actions</th></tr></thead>
+    <tbody id="departmentBody"></tbody>
+  </table>
+  </div>
+</section>
+</main>
+
+<div class="modal" id="grievanceModal"><div class="box">
+  <h2 id="gTitle">New Grievance</h2>
+  <input type="hidden" id="gId">
+  <label>Title *<input id="gTitleInput"></label>
+  <label>Description *<textarea id="gDesc" rows="3"></textarea></label>
+  <div class="row">
+    <label>Citizen Name *<input id="gName"></label>
+    <label>Citizen Email<input id="gEmail" type="email"></label>
+  </div>
+  <div class="row">
+    <label>Phone<input id="gPhone"></label>
+    <label>Category<input id="gCategory" placeholder="e.g. Water, Roads"></label>
+  </div>
+  <div class="row">
+    <label>Department<select id="gDept"></select></label>
+    <label>Priority *<select id="gPriority"><option>LOW</option><option selected>MEDIUM</option><option>HIGH</option><option>CRITICAL</option></select></label>
+  </div>
+  <div class="btns"><button onclick="closeModal('grievanceModal')">Cancel</button><button class="primary" onclick="saveGrievance()">Save</button></div>
+</div></div>
+
+<div class="modal" id="departmentModal"><div class="box">
+  <h2 id="dTitle">New Department</h2>
+  <input type="hidden" id="dId">
+  <label>Name *<input id="dName"></label>
+  <label>Head Officer<input id="dHead"></label>
+  <label>Email<input id="dEmail" type="email"></label>
+  <div class="btns"><button onclick="closeModal('departmentModal')">Cancel</button><button class="primary" onclick="saveDepartment()">Save</button></div>
+</div></div>
+
+<div class="modal" id="actionModal"><div class="box">
+  <h2 id="aTitle"></h2>
+  <input type="hidden" id="aId"><input type="hidden" id="aType">
+  <label>Your name / officer<input id="aBy" placeholder="Officer"></label>
+  <label id="aStatusWrap">New status
+    <select id="aStatus"><option>SUBMITTED</option><option>IN_PROGRESS</option><option>CLOSED</option></select>
+  </label>
+  <label id="aTextWrap"><span id="aTextLabel">Reason</span><textarea id="aText" rows="3"></textarea></label>
+  <div class="btns"><button onclick="closeModal('actionModal')">Cancel</button><button class="primary" onclick="submitAction()">Submit</button></div>
+</div></div>
+
+<div class="modal" id="historyModal"><div class="box wide">
+  <h2 id="hTitle">History</h2>
+  <div id="historyBody"></div>
+  <div class="btns"><button onclick="closeModal('historyModal')">Close</button></div>
+</div></div>
+
+<script src="script.js"></script>
+</body>
+</html>
